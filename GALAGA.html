@@ -2,20 +2,105 @@
 <head>
     <title>GALAGA</title>
     <style>
+        
+
         body{
-            padding: 0;
-            margin: 0;
-            background-color: blue;
+            background: url(image/background.png);
         }
-        canvas{
-            height:100%;
-            width:50%;
+        @keyframes marching-ants { 
+            0% {
+                background-position: 0 0, 10px 100%, 0 10px, 100% 0;
+            }
+            100% {
+                background-position: 10px 0, 0 100%, 0 0, 100% 10px;
+                }
+        }
+        .map{
+            height:700px;
+            width: 400px;
+            display: block;
+            margin: auto;
+            text-align: center;
+            padding:1%;  
+            
+            background-image: linear-gradient(90deg, #ffffff 70%, transparent 50%), linear-gradient(90deg, #ffffff 70%, transparent 50%), linear-gradient(0, #ffffff 70%, transparent 50%), linear-gradient(0, #ffffff 70%, transparent 50%);
+            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+            background-size: 10px 4px, 10px 4px, 4px 10px, 4px 10px;
+            animation: marching-ants 400ms infinite linear;
+        }
+        .setup{
+            height:30px;
+        }
+        .options{
+            height:35px;
+        }
+
+        .red{
+            font-family: monospace;
+            color: #ff0000;
+            font-size:25px;
+        }
+        .txt{
+            font-family: monospace;
+            color: #ffffff;
+            font-size:30px;
+        }
+        .level{
+            float:left;
+            
+        }
+        .score{
+            float:right;
+            
+        }
+        .curLevel{
+            float:left;
+            padding-left:10px;
+        }
+        .curScore{
+            float:right;
+            padding-right:10px;
+        }
+        .botField{
+            height:500px;
+        }
+        .player{
+            height:80px;
+        }
+        .hitPoints{
+            height:50px;
+        }
+        .imageXP{
+            height:50px;
+            width:50px;
+            float:left;
+            padding:1px;
         }
     </style>
 </head>
 
 <body>
-    <canvas></canvas>
+    <div class="map">
+        <div class="setup">
+            <div class="level red">1UP</div>
+            <div class="score red">HIGH SCORE</div>
+        </div>
+        <div class="options">
+            <div class="curLevel txt">0</div>
+            <div class="curScore txt">0</div>
+        </div>
+        <div class="botField"></div>
+        <div class="player"></div>
+        <div class="hitPoints">
+            <div>
+                <img class="imageXP" src="image/airplan.png" />
+                <img class="imageXP" src="image/airplan.png" />
+                <img class="imageXP" src="image/airplan.png" />
+            </div>
+            
+        </div>
+    </div>
+    
     <script></script>
 </body>
 </html>

@@ -6,7 +6,7 @@ function soundClick() {
   		audio.src = 'startMusic.mp3'; 
   		audio.autoplay = true; 
 	}
-	else{
+	else if (audio.autoplay){
 		audio.autoplay = false;
 		audio.pause();
 	}
