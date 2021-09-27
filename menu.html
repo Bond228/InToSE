@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
     <meta charset="utf-8"/>
     <title>Canvas</title>
@@ -23,6 +23,7 @@
             margin: auto;
             text-align: center;
             padding:1%;
+            
             background-image: linear-gradient(90deg, #ffffff 70%, transparent 50%), linear-gradient(90deg, #ffffff 70%, transparent 50%), linear-gradient(0, #ffffff 70%, transparent 50%), linear-gradient(0, #ffffff 70%, transparent 50%);
             background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
             background-size: 10px 4px, 10px 4px, 4px 10px, 4px 10px;
@@ -31,10 +32,16 @@
         img {
             width: 100%;
         }
-        .newGame{
+        .txt{
             color: #ffffff;
             font-family:monospace;
+            transition-property: none;
+            transition: 1s;
         }
+        .tr:hover{
+            transform:scale(120%);
+        }
+
         .bots{
             background-image: url(image/bot1.png);
             background-size:50px 50px;
@@ -58,6 +65,7 @@
 </head>
 
 <body>
+
     <div class="menu">
         <div class="name">
             <img src="image/nameGame.png"/>
@@ -66,8 +74,12 @@
         <div class="player">
             <img id="p1" src="image/airplan.png" />
         </div>
-        <div class="newGame">
+        <div class="txt tr">
             <h1>Touch screen to start</h1>
+        </div>
+        <div class="txt">
+            <h2>© 2021 HITs TSU </h2>
+ 
         </div>
     </div>
 </body>
