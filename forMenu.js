@@ -61,7 +61,12 @@ function animation(){
 	for (bullet = 0; bullet < arrayBullet.length; bullet++) {
 		map.beginPath();
     	map.fillRect(arrayBullet[bullet].x+36, arrayBullet[bullet].y-10, 6, 40);
-    	map.fillStyle = "#0095DD";
+    	if(Math.floor(Math.random() * 100) > 80){
+    		map.fillStyle = "#0fffff";
+    	}
+    	else{
+    		map.fillStyle = "#0095DD";
+    	}
     	map.fill();
     	map.closePath();
     	arrayBullet[bullet].y -= 10;
