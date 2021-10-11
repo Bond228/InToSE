@@ -6,6 +6,7 @@
 
         body{
             background: url(image/background.png);
+
         }
         @keyframes marching-ants { 
             0% {
@@ -16,6 +17,7 @@
                 }
         }
         .map{
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             height:700px;
             width: 400px;
             display: block;
@@ -34,6 +36,7 @@
 
         .options{
             height:35px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
 
         .red{
@@ -64,21 +67,32 @@
         }
         .field {
             height:580px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
         .hitPoints{
             height:50px;
+            width:400px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
         .imageXP{
             height:50px;
             width:50px;
             float:left;
             padding:1px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
 
-        #p1{
-            height: 80px;
-            width: 80px;
-            margin-top: 40%;
+        
+        .music{
+            float: right;
+            padding: 1%;
+        }
+
+        .countHP{
+            float:left;
+            width: 200px;
+            height:50px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
     </style>
 </head>
@@ -86,24 +100,28 @@
 <body>
     <div class="map">
         <div class="setup">
-            <div class="level red">1UP</div>
+            <div class="level red">SCORE</div>
             <div class="score red">HIGH SCORE</div>
         </div>
         <div class="options">
-            <div class="curLevel txt">0</div>
-            <div class="curScore txt">0</div>
+            <div class="curLevel txt" id="score">0</div>
+            <div class="curScore txt" id="highScore">0</div>
         </div>
         <div class="field">
             <img id="p1" src="image/airplan.png" style="display:none" />
+            <img id="bot" src="image/bot1.png" style="display:none"/>
             <canvas id="player" height="580" width="400">
             </canvas>
             
         </div>
         <div class="hitPoints">
-            <div>
-                <img class="imageXP" src="image/airplan.png" />
-                <img class="imageXP" src="image/airplan.png" />
-                <img class="imageXP" src="image/airplan.png" />
+            <div class="countHP">
+                <img class="imageXP" id="xp1" src="image/airplan.png" />
+                <img class="imageXP" id="xp2" src="image/airplan.png" />
+                <img class="imageXP" id="xp3" src="image/airplan.png" />
+            </div>
+            <div class="music">
+                <img src="image/off.png" onclick="soundClick()" height="40" width="40"/>
             </div>
             
         </div>
