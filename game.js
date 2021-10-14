@@ -8,13 +8,13 @@ let bot;
 var track1Complete = false;
 var track2Complete = false;
 var track3Complete = false;
-var end = false;
 let bullet;
 var kill = false;
 var audio = new Audio();
 var intervalTimer;
 let arrayBots = new Array();
 let arrayBullet = new Array();
+let arrayBotsBullet = new Array();
 
 
 window.onload = function animation(){
@@ -77,8 +77,8 @@ class Bot{
 
 window.addEventListener('mousemove', function (ev) {
     clearPerson(player);
-
     X=ev.pageX;
+
     if (X > 610 && X < 920){
         player.x = X-608;
     }
@@ -105,6 +105,10 @@ addEventListener("click", function() {
 
 function startGame() {
     map.clearRect(0,0,400,400);
+    track1Complete = false;
+    track2Complete = false;
+    track3Complete = false;
+    kill = false;
     generationBotsForTrack1();
     intervalTimer = setInterval(logic, 20);
     
@@ -112,6 +116,7 @@ function startGame() {
 }
 
 function logic(){
+
     if (track1Complete == false){
         track1();
     }
@@ -121,18 +126,21 @@ function logic(){
     else if (track3Complete == false) {
         setTimeout(track3, 1000);
     }
-    else if (end == true) {
+    else{
         clearInterval(intervalTimer);
-        map.clearRect(0,0,600,500);
         map.fillStyle = "#ffffff";
         map.font = "30px monospace";
+
+        map.clearRect(0,0,600,500);
         map.fillText("Level completed!", 70, 250);
         setTimeout(finalScore, 2000);
+        //return;
 
     }
-    animationBullet();
     checkKill();
-    
+    animationBullet();
+    animatedBotsBullet();
+    //checkKill();
 
     document.getElementById('score').innerText=score;
 }
@@ -171,55 +179,49 @@ function animationBullet(){
 
 function checkKill(){
     for(var i = 0; i < arrayBots.length; i++){
-        if (arrayBots[i].x > player.x + 10 && arrayBots[i].x < player.x + 70 && arrayBots[i].y + 40 >= 500 && arrayBots[i].y <= 550){
-            console.log("KILLLLLLLL");
-            //clearInterval(intervalTimer);
-            document.getElementById("xp" + countXP).style.visibility = "hidden";
-
-
-            if (countXP > 1){
-                countXP--;
-                clearInterval(intervalTimer);
-                map.clearRect(0,0,600,600);
-                map.drawImage(player.img, player.x, player.y, 80, 80);
-
-    
-                map.fillStyle = "#ffffff";
-                map.font = "30px monospace";
-                map.fillText("Level 1", 140, 250);
-
-                arrayBots.splice(0, arrayBots.length);
-                arrayBullet.splice(0, arrayBullet.length);
-
-                if (score > maxScore){
-                    maxScore = score;
-                }
-                score = 0;
-                document.getElementById('highScore').innerText=maxScore;
-
-                track1Complete = false;
-                track2Complete = false;
-                track3Complete - false;
-                setTimeout(startGame, 2000);
-
-            }
-            else{
-                clearInterval(intervalTimer);
-
-                map.fillStyle = "#ffffff";
-                map.font = "30px monospace";
-                map.fillText("GAME OVER!", 140, 250);
-
-                setTimeout(mainMenu, 2000);
-            } 
+        if (arrayBots[i].x > player.x + 10 && arrayBots[i].x < player.x + 70 && arrayBots[i].y + 45 >= 500 && arrayBots[i].y <= 550){
+            clearInterval(intervalTimer);
+            newGame();
         }
     }
 }
 
-function mainMenu(){
-    window.location.href = "menu.html";
-}
+function newGame(){
+    
+    map.clearRect(0,0,600,600);
+    document.getElementById("xp" + countXP).style.visibility = "hidden";
+    if (countXP > 1){
+        countXP--;
+        map.drawImage(player.img, player.x, player.y, 80, 80);
 
+    
+        map.fillStyle = "#ffffff";
+        map.font = "30px monospace";
+        map.fillText("Level 1", 140, 250);
+
+        arrayBotsBullet.splice(0,arrayBotsBullet.length);
+        arrayBots.splice(0, arrayBots.length);
+        arrayBullet.splice(0, arrayBullet.length);
+
+        if (score > maxScore){
+            maxScore = score;
+        }
+        score = 0;
+        document.getElementById('highScore').innerText=maxScore;
+
+        setTimeout(startGame, 2000);
+    }
+    else{
+        map.clearRect(0,0,600,600);
+        map.fillStyle = "#ffffff";
+        map.font = "30px monospace";
+        map.fillText("GAME OVER!", 140, 250);
+
+        setTimeout(mainMenu, 2000)
+    }
+
+    
+}
 
 
 
@@ -240,6 +242,7 @@ function generationBotsForTrack1(){
 function track1(){
     var len = arrayBots.length;
     for(var i = 0; i < len; i++){
+        generateBotsBullet(arrayBots[i]);
         clearPerson(arrayBots[i]);
         if(arrayBots[i].x > 50 && arrayBots[i].direction == false){
             arrayBots[i].x -=5;
@@ -281,13 +284,15 @@ function generationBotsForTrack2(){
 function track2(){
     var len = arrayBots.length;
     for(var i = 0; i < arrayBots.length; i++){
+        generateBotsBullet(arrayBots[i]);
         clearPerson(arrayBots[i]);
         arrayBots[i].x += 5;
         draw(arrayBots[i]);
+        
     }
 
-    if(arrayBots.length == 0){
-        arrayBots.splice(0, len);
+    if(len == 0){
+        //arrayBots.splice(0, len);
         track2Complete = true;
         generationBotsForTrack3();
     } else if(arrayBots[len-1].x > 400){
@@ -309,6 +314,7 @@ function track3(){
     var len = arrayBots.length;
     for(var i = 0; i < len; i++){
         console.log(len);
+        generateBotsBullet(arrayBots[i]);
         clearPerson(arrayBots[i]);
 
         if (arrayBots[i].x <= 50 && arrayBots[i].direction == false){
@@ -332,11 +338,11 @@ function track3(){
     var len = arrayBots.length;
     if(len == 0) {
         track3Complete = true;
-        end = true;
+        
     }
     else if(arrayBots[len - 1].y > 580) {
         track3Complete = true;
-        end = true;
+        
     }
 
 
@@ -377,12 +383,56 @@ function getRandomInt(max) {
 }
 
 function finalScore(){
-    map.clearRect(0,0,400,500);
+
+    map.clearRect(0,0,600,600);
     score += countXP * 300;
     map.fillStyle = "#ffffff";
     map.font = "30px monospace";
+    document.getElementById('score').innerText=score;
+    document.getElementById('highScore').innerText=score;
     map.fillText("FINAL SCORE:  " + score, 50, 250);
+    setTimeout(mainMenu, 2000);
 }
+
+function mainMenu(){
+    window.location.href = "menu.html";
+    localStorage.setItem('HS', highScore);
+}
+
+
+
+
+function animatedBotsBullet(){
+    map.fillStyle = "#ff0000";
+    for(var i = 0; i < arrayBotsBullet.length; i++){
+        var bul = arrayBotsBullet[i];
+        map.clearRect(bul.x, bul.y, 6, 20);
+        if(bul.x > player.x && bul.x < player.x + 80 && bul.y + 20 > player.y && bul.y < player.y){
+            //map.clearRect(bul.x, bul.y, 6, 20);
+            //arrayBotsBullet.splice(i, 1);
+            clearInterval(intervalTimer);
+            newGame();
+        }
+        //if (bul.y > 500){
+            //map.clearRect(bul.x, bul.y, 6, 20);
+            //arrayBotsBullet.splice(i, 1);
+        //}
+        else{
+            bul.y += 8;
+            map.fillRect(bul.x, bul.y, 6, 20);
+        }
+    }
+}
+
+function generateBotsBullet(bot){
+    var x = bot.x;
+    var y = bot.y;
+    if (getRandomInt(1000) > 995){
+        bullet = new Bullet(x, y);
+        arrayBotsBullet.push(bullet);
+    }
+}
+
 
 
 

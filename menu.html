@@ -4,10 +4,17 @@
     <title>GALAGA</title>
     <style>
 
-        body {
-            background-image: url(image/fon.gif);
-            background-size: 100%;
+        body{
+            background: url(image/background.png);
+            background-size: 300px;
+            animation: moveIt 20s linear infinite;
+
         }
+
+        @keyframes moveIt {
+            from {background-position: top;}
+            to {background-position: bottom;}
+        } 
 
         @keyframes marching-ants {
             0% {

@@ -2,6 +2,9 @@
 //	animation();
 //});
 
+var parameter = localStorage.getItem('HS');
+console.log(parameter);
+
 var audio = new Audio();
 audio.autoplay = false;
 
@@ -33,6 +36,7 @@ class Bullet{
 	}
 
 }
+
 
 
 
