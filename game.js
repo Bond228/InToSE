@@ -5,30 +5,33 @@ var score = 0;
 var countXP = 3;
 let player;
 let bot;
+let bullet;
 var track1Complete = false;
 var track2Complete = false;
 var track3Complete = false;
-let bullet;
 var kill = false;
 var audio = new Audio();
 var intervalTimer;
 let arrayBots = new Array();
 let arrayBullet = new Array();
 let arrayBotsBullet = new Array();
+var imgPlayer = document.getElementById("p1");
+var imgBot = document.getElementById("bot");
 
+function textStyle(){
+    map.fillStyle = "#ffffff";
+    map.font = "30px monospace";
+}
 
 window.onload = function animation(){
-
-    var img = document.getElementById("p1");
-    player = new Player(160, 500, img, 80);
+    player = new Person(160, 500, imgPlayer, 80);
 
     canvas = document.getElementById("player");
     map = canvas.getContext("2d");
-    map.drawImage(player.img, player.x, player.y, 80, 80);
+    map.drawImage(player.img, player.x, player.y, player.size, player.size);
 
     
-    map.fillStyle = "#ffffff";
-    map.font = "30px monospace";
+    textStyle()
     map.fillText("Level 1", 140, 250);
     setTimeout(startGame, 2000);
 }
@@ -42,38 +45,19 @@ class Bullet{
 
 }
 
-class Player{
-    constructor(x, y, img) {
-    this.x = x;
-    this.y = y;
-    this.img = img;
-  }
-  size = 80;
-} 
+class Person{
 
-class Bot{
-    constructor(x, y, img) {
-    this.x = x;
-    this.y = y;
-    this.img = img;
-  }
-  size = 50;
+    constructor(x, y, img, size) {
+        this.x = x;
+        this.y = y;
+        this.img = img;
+        this.size = size;
+    }
   direction = false;
 }
 
 
-////// ЛИСТНЕРЫ ///////
-
-//document.addEventListener('keydown', movePlayer, true);
-//function movePlayer(){
-    //clearPerson(player);
-    //if ((event.keyCode == 37 || event.keyCode == 65) && player.x > 0) {
-        //player.x -= 6;
-    //} else if((event.keyCode == 39 || event.keyCode == 68) && player.x < 320){
-    //    player.x += 6;
-    //}
-   // draw(player);
-//}
+//////////////////// ЛИСТНЕРЫ /////////////////
 
 window.addEventListener('mousemove', function (ev) {
     clearPerson(player);
@@ -86,19 +70,13 @@ window.addEventListener('mousemove', function (ev) {
     draw(player);
 });
 
-//window.addEventListener('keyup', function (e) {
-   // if (e.keyCode == 32) {
-       //bullet = new Bullet(player.x + 36, player.y-40);
-    //arrayBullet.push(bullet);
-    //}
-//}, false);
 
 addEventListener("click", function() {
     bullet = new Bullet(player.x + 36, player.y-40);
     arrayBullet.push(bullet);
 });
 
-/////
+////////////////////////////////////////////////
 
 
 
@@ -128,19 +106,16 @@ function logic(){
     }
     else{
         clearInterval(intervalTimer);
-        map.fillStyle = "#ffffff";
-        map.font = "30px monospace";
+        textStyle();
 
         map.clearRect(0,0,600,500);
         map.fillText("Level completed!", 70, 250);
         setTimeout(finalScore, 2000);
-        //return;
 
     }
     checkKill();
     animationBullet();
     animatedBotsBullet();
-    //checkKill();
 
     document.getElementById('score').innerText=score;
 }
@@ -151,6 +126,7 @@ function animationBullet(){
     for(var i = 0; i < arrayBullet.length; i++){
         map.fillStyle = "#0fffff";
         kill = false;
+
         if (arrayBullet[i].y < 0) {
             map.clearRect(arrayBullet[i].x, arrayBullet[i].y, 6, 20);
             arrayBullet.splice(i,1);
@@ -190,13 +166,12 @@ function newGame(){
     
     map.clearRect(0,0,600,600);
     document.getElementById("xp" + countXP).style.visibility = "hidden";
+    textStyle();
+
     if (countXP > 1){
         countXP--;
-        map.drawImage(player.img, player.x, player.y, 80, 80);
+        map.drawImage(player.img, player.x, player.y, player.size, player.size);
 
-    
-        map.fillStyle = "#ffffff";
-        map.font = "30px monospace";
         map.fillText("Level 1", 140, 250);
 
         arrayBotsBullet.splice(0,arrayBotsBullet.length);
@@ -213,28 +188,20 @@ function newGame(){
     }
     else{
         map.clearRect(0,0,600,600);
-        map.fillStyle = "#ffffff";
-        map.font = "30px monospace";
         map.fillText("GAME OVER!", 140, 250);
 
         setTimeout(mainMenu, 2000)
     }
-
-    
 }
-
-
-
-
 
 
 /////// УРОВНИ /////////
 
 
 function generationBotsForTrack1(){
-    var img = document.getElementById("bot");
+    
     for(var i = 0; i < 10; i++){
-        bot = new Bot(400 + i*50, 0 - i*50, img);
+        bot = new Person(400 + i*50, 0 - i*50, imgBot, 50, 50);
         arrayBots.push(bot);
     }
 }
@@ -272,9 +239,8 @@ function track1(){
 }
 
 function generationBotsForTrack2(){
-    var img = document.getElementById("bot");
     for(var i = 0; i < 10; i++){
-        bot = new Bot(0 - i*50, 300, img);
+        bot = new Person(0 - i*50, 300, imgBot, 50, 50);
         arrayBots.push(bot);
     }
 
@@ -292,7 +258,6 @@ function track2(){
     }
 
     if(len == 0){
-        //arrayBots.splice(0, len);
         track2Complete = true;
         generationBotsForTrack3();
     } else if(arrayBots[len-1].x > 400){
@@ -303,9 +268,8 @@ function track2(){
 }
 
 function generationBotsForTrack3(){
-    var img = document.getElementById("bot");
     for(var i = 0; i < 10; i++){
-        bot = new Bot(50 - i*50, 0 - i*50, img);
+        bot = new Person(50 - i*50, 0 - i*50, imgBot, 50, 50);
         arrayBots.push(bot);
     }
 }
@@ -386,8 +350,7 @@ function finalScore(){
 
     map.clearRect(0,0,600,600);
     score += countXP * 300;
-    map.fillStyle = "#ffffff";
-    map.font = "30px monospace";
+    textStyle();
     document.getElementById('score').innerText=score;
     document.getElementById('highScore').innerText=score;
     map.fillText("FINAL SCORE:  " + score, 50, 250);
@@ -408,15 +371,9 @@ function animatedBotsBullet(){
         var bul = arrayBotsBullet[i];
         map.clearRect(bul.x, bul.y, 6, 20);
         if(bul.x > player.x && bul.x < player.x + 80 && bul.y + 20 > player.y && bul.y < player.y){
-            //map.clearRect(bul.x, bul.y, 6, 20);
-            //arrayBotsBullet.splice(i, 1);
             clearInterval(intervalTimer);
             newGame();
         }
-        //if (bul.y > 500){
-            //map.clearRect(bul.x, bul.y, 6, 20);
-            //arrayBotsBullet.splice(i, 1);
-        //}
         else{
             bul.y += 8;
             map.fillRect(bul.x, bul.y, 6, 20);
