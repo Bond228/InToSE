@@ -11,6 +11,7 @@ var track2Complete = false;
 var track3Complete = false;
 var kill = false;
 var audio = new Audio();
+var audioStart = new Audio();
 var intervalTimer;
 let arrayBots = new Array();
 let arrayBullet = new Array();
@@ -23,7 +24,16 @@ function textStyle(){
     map.font = "30px monospace";
 }
 
+function lm(){
+    var audKil = new Audio();
+    audKil.src = "levelMusic.mp3";
+    audKil.autoplay = true;
+}
+
 window.onload = function animation(){
+    //lm();
+    //document.getElementById('mus').play(); 
+    var audio = new Audio();
     player = new Person(160, 500, imgPlayer, 80);
 
     canvas = document.getElementById("player");
@@ -82,7 +92,8 @@ addEventListener("click", function() {
 
 
 function startGame() {
-    map.clearRect(0,0,400,400);
+    lm();
+    map.clearRect(0,0,600,600);
     track1Complete = false;
     track2Complete = false;
     track3Complete = false;
@@ -94,7 +105,7 @@ function startGame() {
 }
 
 function logic(){
-
+    draw(player);
     if (track1Complete == false){
         track1();
     }
@@ -113,9 +124,11 @@ function logic(){
         setTimeout(finalScore, 2000);
 
     }
-    checkKill();
+
+    
     animationBullet();
     animatedBotsBullet();
+    checkKill();
 
     document.getElementById('score').innerText=score;
 }
@@ -137,6 +150,7 @@ function animationBullet(){
             if (arrayBullet[i].x >= arrayBots[j].x + 5 && arrayBullet[i].x <= arrayBots[j].x + 45 && arrayBullet[i].y > arrayBots[j].y && arrayBullet[i].y < arrayBots[j].y + 50){
                 clearPerson(arrayBots[j]);
                 map.clearRect(arrayBullet[i].x, arrayBullet[i].y, 6, 20);
+                boom(arrayBots[j].x, arrayBots[j].y);
                 arrayBots.splice(j, 1);
                 arrayBullet.splice(i,1);
                 kill = true;
@@ -389,6 +403,35 @@ function generateBotsBullet(bot){
         arrayBotsBullet.push(bullet);
     }
 }
+
+function boom(x, y){
+    var imgBoom1 = document.getElementById('boom1');
+    var imgBoom2 = document.getElementById('boom2');
+    //var gif = document.getElementById('boom');
+    //map.draw(gif, x, y, 50, 50);
+
+    //var myGif = GIF();
+    //myGif.load("GIFurl.gif");
+    //map.drawImage(myGif.image,x,y, 50, 50);
+
+
+    //map.drawImage(imgBoom1, x, y, 50, 50);
+    //map.drawImage(imgBoom2, x, y, 50, 50);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

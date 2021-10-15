@@ -106,6 +106,7 @@
 </head>
 
 <body id="mainWindow">
+    <audio id="mus" src="levelMusic.mp3"></audio>
     <div class="map">
         <div class="setup">
             <div class="level red">SCORE</div>
@@ -117,10 +118,13 @@
         </div>
         <div class="field">
             <img id="p1" src="image/airplan.png" style="display:none" />
-            <img id="bot" src="image/bot1.png" style="display:none"/>
+            <img id="bot" src="image/bot1.png" style="display:none" />
+            <img id="boom1" src="image/boom1.png" style="display:none" />
+            <img id="boom2" src="image/boom2.png" style="display:none" />
+            <img id="boom" src="image/boom.gif" style="display:none" />
             <canvas id="player" height="580" width="400">
             </canvas>
-            
+
         </div>
         <div class="hitPoints">
             <div class="countHP">
@@ -129,12 +133,12 @@
                 <img class="imageXP" id="xp3" src="image/airplan.png" />
             </div>
             <div class="music">
-                <img src="image/off.png" onclick="soundClick()" height="40" width="40"/>
+                <img src="image/off.png" onclick="soundClick()" height="40" width="40" />
             </div>
-            
+
         </div>
     </div>
-    
+
     <script src="game.js" type="text/javascript"></script>
 </body>
 </html>
